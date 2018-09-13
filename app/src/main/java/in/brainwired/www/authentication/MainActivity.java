@@ -2,15 +2,22 @@ package in.brainwired.www.authentication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
-import android.support.v7.widget.Toolbar;
+import android.widget.FrameLayout;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView username_Text;
+    private BottomNavigationView main_Nav;
+    private HomeFragment homeFragment;
+    private ChatFragment chatFragment;
+    private FrameLayout main_Frame;
     private Toolbar toolbar;
 
     @Override
@@ -23,13 +30,37 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this,LoginActivity.class));
             return;
         }
-
         toolbar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.app_name);
-        username_Text=findViewById(R.id.username);
-        username_Text.setText(SharedPrefManager.getInstance(this).getUsername());
+        getSupportActionBar().setTitle(R.string.home);
+        main_Frame=findViewById(R.id.main_frame);
+        main_Nav=findViewById(R.id.main_page_navbar);
+        homeFragment=new HomeFragment();
+        chatFragment=new ChatFragment();
+        setFragment(homeFragment);
+        main_Nav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId())
+                {
+                    case R.id.nav_home :    setFragment(homeFragment);
+                                            getSupportActionBar().setTitle(R.string.home);
+                                            return true;
 
+                    case R.id.nav_chat :    setFragment(chatFragment);
+                                            getSupportActionBar().setTitle(R.string.chat);
+                                            return true;
+
+                    default:    return false;
+                }
+            }
+        });
+    }
+
+    private void setFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame,fragment);
+        fragmentTransaction.commit();
     }
 
     @Override

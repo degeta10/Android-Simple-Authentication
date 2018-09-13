@@ -9,4 +9,9 @@
     <string name="default_name">Name</string>
     <string name="register_a_new_user">Register A New User</string>
     <string name="login_to_your_account">Login To Your Account</string>
+    <string name="home">Home</string>
+    <string name="chat">Chat</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
