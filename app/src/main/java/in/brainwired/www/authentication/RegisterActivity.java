@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -24,7 +25,8 @@ import java.util.Map;
 public class RegisterActivity extends AppCompatActivity {
 
     private TextInputLayout register_Username,register_Password,register_Email;
-    private Button register_Button,login_Button;
+    private Button register_Button;
+    private TextView header_Text;
     private ProgressDialog dialog;
 
     @Override
@@ -37,7 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
         register_Password = findViewById(R.id.register_password);
 
         register_Button=findViewById(R.id.register_button);
-        login_Button=findViewById(R.id.login_button);
+        header_Text=findViewById(R.id.header_text);
         dialog = new ProgressDialog(this);
 
         register_Button.setOnClickListener(new View.OnClickListener() {
@@ -46,14 +48,13 @@ public class RegisterActivity extends AppCompatActivity {
                 registerUser();
             }
         });
+    }
 
-        login_Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent login_intent = new Intent(RegisterActivity.this,LoginActivity.class);
-                startActivity(login_intent);
-            }
-        });
+    public void goToLogin()
+    {
+        Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void registerUser() {
@@ -71,6 +72,11 @@ public class RegisterActivity extends AppCompatActivity {
                         try {
                             JSONObject jsonObject= new JSONObject(response);
                             Toast.makeText(RegisterActivity.this,jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+                            if (!jsonObject.getBoolean("error"))
+                            {
+                                goToLogin();
+                            }
+
                         } catch (JSONException e) {
                             Toast.makeText(RegisterActivity.this,"JSON Error",Toast.LENGTH_SHORT).show();
                             e.printStackTrace();

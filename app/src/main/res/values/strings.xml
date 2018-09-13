@@ -6,4 +6,7 @@
     <string name="email">email</string>
     <string name="login">login</string>
     <string name="logout">Logout</string>
+    <string name="default_name">Name</string>
+    <string name="register_a_new_user">Register A New User</string>
+    <string name="login_to_your_account">Login To Your Account</string>
 </resources>

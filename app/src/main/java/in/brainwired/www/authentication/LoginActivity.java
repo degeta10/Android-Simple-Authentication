@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -27,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextInputLayout login_Password,login_Email;
     private Button login_Button;
+    private TextView header_Text;
     private ProgressDialog dialog;
 
     @Override
@@ -41,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        header_Text=findViewById(R.id.header_text);
         login_Email = findViewById(R.id.login_email);
         login_Password = findViewById(R.id.login_password);
 
@@ -53,6 +56,14 @@ public class LoginActivity extends AppCompatActivity {
                 loginUser();
             }
         });
+    }
+
+    public void goToMain()
+    {
+        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 
     private void loginUser() {
@@ -77,8 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                                         jsonObject.getString("email"));
 
                         Toast.makeText(LoginActivity.this,"Login Succesful",Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                        finish();
+                        goToMain();
                     }
                     else
                     {
